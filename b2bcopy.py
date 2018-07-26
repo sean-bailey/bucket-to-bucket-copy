@@ -5,7 +5,7 @@ import os
 import re
 import sys
 
-s3client = boto3.client(s3)
+s3client = boto3.client("s3")
 
 
 def get_files_in_bucket_folder(sourcebucket, folderprefix):
