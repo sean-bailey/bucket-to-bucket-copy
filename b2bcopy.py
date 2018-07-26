@@ -20,7 +20,7 @@ def get_files_in_bucket_folder(sourcebucket, folderprefix):
         )
         if 'Contents' in objectsinbucket.keys():
             for nameofobject in objectsinbucket['Contents']:
-                filenamearray.append[str(nameofobject['Key'])]
+                filenamearray.append(str(nameofobject['Key']))
         else:
             print("No objects in folder %s!" % folderprefix)
             filenamearray = None
