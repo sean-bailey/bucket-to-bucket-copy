@@ -30,11 +30,11 @@ def get_files_in_bucket_folder(sourcebucket, folderprefix):
         return None
 
 
-def download_file_to_memory(sourcebucket, folderprefix, file):
+def download_file_to_memory(sourcebucket, folderprefix, filename):
     try:
         print("putting file %s%s into memory for transfer..." % (folderprefix,
                                                                  file))
-        fullfilename = folderprefix + "/"+file
+        fullfilename = filename
         filetomemory = s3client.get_object(Bucket=sourcebucket,
                                            Key=fullfilename)['Body'].read()
         return filetomemory
@@ -45,7 +45,7 @@ def download_file_to_memory(sourcebucket, folderprefix, file):
 
 def upload_file_to_dest_bucket(destbucket, folderprefix, fileobject, filename):
     try:
-        fullfilename = folderprefix+'/'+filename
+        fullfilename = filename
         print("uploading %s to dest bucket %s" % s(fullfilename, destbucket))
         response = s3client.put_object(
             body=fileobject,
