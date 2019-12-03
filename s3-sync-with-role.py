@@ -78,7 +78,7 @@ for client_object in clientbucket.objects.all():
             os.remove(str(client_object.key))
         else:
             nerveresource=boto3.resource('s3')
-            nerveobject=s3.Object(args.dest,client_object.key)
+            nerveobject=nerveresource.Object(args.dest,client_object.key)
             if client_object.last_modified > nerveobject.last_modified:
                 print("downloading " + str(client_object.key))
                 clientbucket.download_file(str(client_object.key), str(client_object.key))
