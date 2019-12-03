@@ -3,6 +3,7 @@ import os
 import sys
 
 import argparse
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--rolearn", help="ARN of the role to assume (REQUIRED)")
 parser.add_argument("--session", help="Session Name of the role to assume (Optional)")
@@ -75,6 +76,18 @@ for client_object in clientbucket.objects.all():
             nervebucket.upload_file(str(client_object.key),str(client_object.key))
             print("Deleting " + str(client_object.key))
             os.remove(str(client_object.key))
+        else:
+            nerveresource=boto3.resource('s3')
+            nerveobject=s3.Object(args.dest,client_object.key)
+            if client_object.last_modified > nerveobject.last_modified:
+                print("downloading " + str(client_object.key))
+                clientbucket.download_file(str(client_object.key), str(client_object.key))
+                print("Uploading " + str(client_object.key))
+                nervebucket.upload_file(str(client_object.key),str(client_object.key))
+                print("Deleting " + str(client_object.key))
+                os.remove(str(client_object.key))
+                print("File updated!")
+
     except Exception as e:
         print("Cannot perform action on " + str(client_object.key))
         print(e)
