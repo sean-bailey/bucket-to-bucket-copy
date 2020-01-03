@@ -106,26 +106,15 @@ for client_object in clientbucket.objects.all():
     print(client_object.key)
     try:
         if not str(client_object.key) in nervefiledict.keys():
-            #print("downloading " + str(client_object.key))
             fileobj1=download_file_to_memory(sourcebucket=args.source,filename=client_object.key,s3client=clients3client)
             uploadresponse=upload_file_to_dest_bucket(destbucket=args.dest, fileobject=fileobj1, filename=client_object.key,s3client=nerves3client)
 
-            #clientbucket.download_file(str(client_object.key), str(client_object.key))
-            #print("Uploading " + str(client_object.key))
-            #nervebucket.upload_file(str(client_object.key),str(client_object.key))
-            #print("Deleting " + str(client_object.key))
-            #os.remove(str(client_object.key))
+
         else:
             nerveresource=boto3.resource('s3')
             nerveobject=nerveresource.Object(args.dest,client_object.key)
             if client_object.last_modified > nerveobject.last_modified:
-                #print("downloading " + str(client_object.key))
-                #clientbucket.download_file(str(client_object.key), str(client_object.key))
-                #print("Uploading " + str(client_object.key))
-                #nervebucket.upload_file(str(client_object.key),str(client_object.key))
-                #print("Deleting " + str(client_object.key))
-                #os.remove(str(client_object.key))
-                #print("File updated!")
+
                 fileobj1=download_file_to_memory(sourcebucket=args.source,filename=client_object.key,s3client=clients3client)
                 uploadresponse=upload_file_to_dest_bucket(destbucket=args.dest, fileobject=fileobj1, filename=client_object.key,s3client=nerves3client)
 
